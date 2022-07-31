@@ -3,6 +3,7 @@ name: CI/CD
 on:
   release:
     types: [created,edited]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,13 +16,12 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Use Node 16
-        uses: actions/setup-node@v1
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.2.2
         with:
-          node-version: '16.x'
-          architecture: 'x64'
+          version: 6.0.2
 
       - name: Install deps and build
         run: pnpm install
