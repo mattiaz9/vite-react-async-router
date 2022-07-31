@@ -1,0 +1,44 @@
+name: CI/CD
+
+on:
+  release:
+    types: [created,edited]
+
+jobs:
+  build:
+    name: Build, lint, test and publish
+
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_ENV: production
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Use Node 16
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+          architecture: 'x64'
+
+      - name: Install deps and build
+        run: pnpm install
+
+      - name: Test
+        run: pnpm test --ci --coverage --maxWorkers=2
+
+      - name: Build
+        run: pnpm build
+
+      - name: Setup npm
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
+          registry-url: https://registry.npmjs.org/
+
+      - name: Publish to NPM
+        run: npm publish dist
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

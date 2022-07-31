@@ -1,0 +1,45 @@
+{
+  "name": "vite-react-async-router",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
+  "scripts": {
+    "dev": "node bundle.mjs -w",
+    "build": "node bundle.mjs"
+  },
+  "peerDependencies": {
+    "react": ">=18.2",
+    "react-dom": ">=18.2",
+    "react-router-dom": ">=6.4"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.4.0-pre.10"
+  },
+  "devDependencies": {
+    "@types/glob": "7.2.0",
+    "@types/node": "18.0.6",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "18.0.6",
+    "@types/react-router-dom": "5.3.3",
+    "@typescript-eslint/eslint-plugin": "5.30.7",
+    "@typescript-eslint/parser": "5.30.7",
+    "chokidar": "3.5.3",
+    "esbuild": "0.14.51",
+    "esbuild-plugin-css-in-js": "0.0.1",
+    "eslint": "8.20.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jsx-a11y": "6.6.0",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-promise": "6.0.0",
+    "eslint-plugin-react": "7.30.1",
+    "prettier": "2.7.1",
+    "typescript": "4.7.4",
+    "vite": "3.0.4"
+  }
+}
