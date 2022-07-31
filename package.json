@@ -1,6 +1,6 @@
 {
   "name": "vite-react-async-router",
-  "version": "1.0.0",
+  "version": "1.0.0-pre",
   "license": "MIT",
   "main": "index.js",
   "module": "index.js",

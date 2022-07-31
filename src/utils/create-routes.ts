@@ -47,7 +47,7 @@ export function createRoutes(): RouteObject[] {
           ({ path }) =>
             folder === "" ||
             new RegExp(
-              `/pages${folder.replaceAll("[", "\\[").replaceAll("]", "\\]")}/.+?\.(tsx|jsx|ts|js)$`
+              `/pages${folder.replace(/\[/, "\\[").replace(/\]/, "\\]")}/.+?\.(tsx|jsx|ts|js)$`
             ).test(path)
         )
 
