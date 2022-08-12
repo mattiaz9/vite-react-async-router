@@ -1,10 +1,14 @@
 {
   "name": "vite-react-async-router",
-  "version": "1.0.0-pre",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "index.js",
   "module": "index.js",
   "typings": "index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mattiaz9/vite-react-async-router"
+  },
   "scripts": {
     "dev": "node bundle.mjs -w",
     "build": "node bundle.mjs"
@@ -17,7 +21,7 @@
   "dependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.4.0-pre.10"
+    "react-router-dom": "6.4.0-pre.11"
   },
   "devDependencies": {
     "@types/glob": "7.2.0",

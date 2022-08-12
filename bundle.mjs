@@ -18,6 +18,7 @@ if (fs.existsSync(DIST_PATH)) {
 
 await build()
 copyPackageJson()
+copyReadme()
 
 async function build(file) {
   const label = file ? `File ${getRelativePath(file)} changed` : ``
@@ -96,6 +97,12 @@ function copyPackageJson() {
     path.join(DIST_PATH, "package.json"),
     Buffer.from(JSON.stringify(packageJson, null, 2), "utf-8")
   )
+}
+
+function copyReadme() {
+  const readme = fs.readFileSync(path.resolve("README.md")).toString("utf-8")
+
+  fs.writeFileSync(path.join(DIST_PATH, "README.md"), Buffer.from(readme, "utf-8"))
 }
 
 // Watch in dev mode
