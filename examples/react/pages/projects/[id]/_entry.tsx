@@ -1,7 +1,7 @@
 import React from "react"
 
 import { usePageData } from "vite-react-async-router"
-import type { PageLoader } from "vite-react-async-router"
+import type { PageLoader, RouteEntry } from "vite-react-async-router"
 
 import type { Project } from "../../../data/projects"
 
@@ -9,7 +9,7 @@ type PageData = {
   project: Project
 }
 
-const EntryProject: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const EntryProject: RouteEntry = ({ children }) => {
   const { data, isLoading } = usePageData<PageData>()
 
   return (
@@ -27,7 +27,15 @@ const EntryProject: React.FC<{ children: React.ReactNode }> = ({ children }) => 
   )
 }
 
-export const loader: PageLoader<PageData> = async args => {
+export const loader: PageLoader<PageData, { project: Project }> = async args => {
+  if (args.state?.project) {
+    return {
+      data: {
+        project: args.state.project,
+      },
+    }
+  }
+
   await new Promise(resolve => setTimeout(resolve, 1000))
 
   const projects = (await import("../../../data/projects")).default

@@ -1,15 +1,14 @@
 import React from "react"
-import { Link } from "react-router-dom"
 
 import { usePageData } from "vite-react-async-router"
-import type { PageLoader } from "vite-react-async-router"
+import type { PageLoader, RoutePage } from "vite-react-async-router"
 import type { Article } from "data/articles"
 
 type PageData = {
   articles: Article[]
 }
 
-const Project: React.FC = () => {
+const Project: RoutePage = () => {
   const { data, isLoading } = usePageData<PageData>()
 
   return (

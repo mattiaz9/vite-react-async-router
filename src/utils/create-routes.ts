@@ -19,8 +19,6 @@ export function createRoutes(): RouteObject[] {
   )
   const entriesPaths = Object.keys(entriesPages).reverse()
 
-  console.log("render")
-
   return [
     createRouteOuter(
       {
@@ -95,6 +93,7 @@ export function createRoutes(): RouteObject[] {
     const Page = createRoutePage(path)
 
     return {
+      // TODO: replace id with page `routeId`
       id: routePath,
       path: routePath,
       element: React.createElement(Suspense, {}, Page),
@@ -136,9 +135,9 @@ export function createRoutes(): RouteObject[] {
             error = new ClientError(error.message)
           }
         } else {
-          return async () => {
+          return async (state: any) => {
             try {
-              const result = await loader(args)
+              const result = await loader({ ...args, state })
 
               if (result.notFound) {
                 error = new NotFoundError()

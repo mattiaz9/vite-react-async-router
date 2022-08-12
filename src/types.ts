@@ -1,13 +1,20 @@
+import React from "react"
 import type { LoaderFunctionArgs } from "react-router-dom"
 
-export interface Page<T = any> {
-  default: React.FC
-  loader?: PageLoader<T>
+export interface RoutePage<P = {}> extends React.FC<P> {
+  routeId?: string
+}
+
+export interface RouteEntry<P = {}> extends RoutePage<P & { children: React.ReactNode }> {}
+
+export interface Page<P = {}, T = any, S = any> {
+  default: RoutePage<P>
+  loader?: PageLoader<T, S>
   config?: PageConfig
 }
 
-export type PageLoader<T> = {
-  (args: LoaderFunctionArgs): Promise<LoaderData<T>>
+export type PageLoader<T, S = any> = {
+  (args: LoaderFunctionArgs & { state?: S }): Promise<LoaderData<T>>
   loadingMode?: "render" | "blocking"
 }
 

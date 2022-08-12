@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react"
-import { useLoaderData, useRevalidator } from "react-router-dom"
+import { useLoaderData, useLocation, useRevalidator } from "react-router-dom"
 import type { LoaderData } from "../types"
 
-const isPromise = <T>(value: any | (() => Promise<T>)): value is () => Promise<T> =>
-  typeof value === "function"
+const isPromise = <T>(
+  value: any | ((state: any) => Promise<T>)
+): value is (state: any) => Promise<T> => typeof value === "function"
 
 export default function usePageData<T>() {
   const { revalidate } = useRevalidator()
-  const loaderData = useLoaderData() as T | (() => Promise<LoaderData<T>>) | null | undefined
+  const { state } = useLocation()
+  const loaderData = useLoaderData() as
+    | T
+    | ((state: any) => Promise<LoaderData<T>>)
+    | null
+    | undefined
   const [data, setData] = useState<T | undefined | null>(
     typeof loaderData !== "function" ? loaderData : undefined
   )
@@ -17,7 +23,7 @@ export default function usePageData<T>() {
 
     if (!loaderData) return
     if (isPromise(loaderData)) {
-      loaderData().then(pageData => {
+      loaderData(state).then(pageData => {
         if (pageData.notFound) {
           // revalidate to throw not found error from the router `loader`
           revalidate()

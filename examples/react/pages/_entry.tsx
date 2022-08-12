@@ -2,7 +2,7 @@ import React from "react"
 import { Link } from "react-router-dom"
 
 import { usePageData } from "vite-react-async-router"
-import type { PageLoader } from "vite-react-async-router"
+import type { PageLoader, RouteEntry } from "vite-react-async-router"
 
 import type { Project } from "../data/projects"
 
@@ -10,7 +10,7 @@ type PageData = {
   projects: Project[]
 }
 
-const Home: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const Entry: RouteEntry = ({ children }) => {
   const { data, isLoading } = usePageData<PageData>()
 
   return (
@@ -73,4 +73,4 @@ export const loader: PageLoader<PageData> = async args => {
   }
 }
 
-export default Home
+export default Entry
