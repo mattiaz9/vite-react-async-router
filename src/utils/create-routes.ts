@@ -93,7 +93,6 @@ export function createRoutes(): RouteObject[] {
     const Page = createRoutePage(path)
 
     return {
-      // TODO: replace id with page `routeId`
       id: routePath,
       path: routePath,
       element: React.createElement(Suspense, {}, Page),

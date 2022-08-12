@@ -2,7 +2,7 @@ import React from "react"
 import type { LoaderFunctionArgs } from "react-router-dom"
 
 export interface RoutePage<P = {}> extends React.FC<P> {
-  routeId?: string
+  //routeId?: string --> cannot fetch this without compromising code splitting
 }
 
 export interface RouteEntry<P = {}> extends RoutePage<P & { children: React.ReactNode }> {}
