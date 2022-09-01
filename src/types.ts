@@ -1,6 +1,12 @@
 import React from "react"
 import type { LoaderFunctionArgs } from "react-router-dom"
 
+export type RouteLoadingBehaviour = "lazy" | "blocking"
+
+export interface RoutesOptions {
+  defaultBehaviour?: RouteLoadingBehaviour
+}
+
 export interface RoutePage<P = {}> extends React.FC<P> {
   //routeId?: string --> cannot fetch this without compromising code splitting
 }
@@ -15,7 +21,7 @@ export interface Page<P = {}, T = any, S = any> {
 
 export type PageLoader<T, S = any> = {
   (args: LoaderFunctionArgs & { state?: S }): Promise<LoaderData<T>>
-  loadingMode?: "render" | "blocking"
+  loadingMode?: RouteLoadingBehaviour
 }
 
 export interface LoaderData<T> {

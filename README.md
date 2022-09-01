@@ -72,7 +72,20 @@ export default Page
 
 ### Loading mode
 
+#### At root level (default is "lazy")
+```ts
+createRoot(
+  document.getElementById("root")!
+).render(
+  <Router defaultBehaviour="blocking" />
+)
+```
+
+#### At page level
+
 Set `loader.loadingMode = "blocking"` to make the router wait the loader function to fetch the data before rendering the component.
+
+Set `loader.loadingMode = "lazy"` to render immediatly the page with loading option.
 
 ## Retrieving the data
 

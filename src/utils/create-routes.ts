@@ -6,9 +6,9 @@ import EntryOutlet from "../components/entry-outlet"
 import NotFound from "../components/404"
 import ErrorPage from "../components/error-page"
 import { ClientError, NotFoundError } from "./errors"
-import type { Page } from "../types"
+import type { RoutesOptions, Page } from "../types"
 
-export function createRoutes(): RouteObject[] {
+export function createRoutes(opts?: RoutesOptions): RouteObject[] {
   const pages = import.meta.glob<Page>("/pages/**/*.(tsx|jsx|ts|js)")
   const entriesPages = import.meta.glob<Page>("/pages/**/_entry.(tsx|jsx|ts|js)", {
     eager: true,
@@ -116,8 +116,11 @@ export function createRoutes(): RouteObject[] {
       if (error) throw error
 
       const { loader } = await pageModule()
+
       if (loader) {
-        if (loader.loadingMode === "blocking") {
+        const loadingMode = loader.loadingMode ?? opts?.defaultBehaviour ?? "lazy"
+
+        if (loadingMode === "blocking") {
           try {
             const result = await loader(args)
 
@@ -133,7 +136,7 @@ export function createRoutes(): RouteObject[] {
           } catch (error: any) {
             error = new ClientError(error.message)
           }
-        } else {
+        } else if (loadingMode === "lazy") {
           return async (state: any) => {
             try {
               const result = await loader({ ...args, state })
