@@ -9,8 +9,10 @@ import { ClientError, NotFoundError } from "./errors"
 import type { RoutesOptions, Page } from "../types"
 
 export function createRoutes(opts?: RoutesOptions): RouteObject[] {
-  const pages = import.meta.glob<Page>("/pages/**/*.(tsx|jsx|ts|js)")
-  const entriesPages = import.meta.glob<Page>("/pages/**/_entry.(tsx|jsx|ts|js)", {
+  const pagesRoot = (opts?.pagesRoot?.replace(/^\/?/, "/") ?? "/").replace(/\/$/, "")
+  const pagesFolder = pagesRoot + "/pages"
+  const pages = import.meta.glob<Page>("/**/pages/**/*.(tsx|jsx|ts|js)")
+  const entriesPages = import.meta.glob<Page>("/**/pages/**/_entry.(tsx|jsx|ts|js)", {
     eager: true,
   })
   const allPagesPaths = Object.keys(pages)
@@ -38,14 +40,17 @@ export function createRoutes(opts?: RoutesOptions): RouteObject[] {
     }))
 
     for (const entryPath of entriesPaths) {
-      const folder = entryPath.match(/\/pages(\/.*)\/.+?\.(tsx|jsx|ts|js)$/)?.[1] ?? ""
+      const folderRegex = new RegExp(`${pagesFolder}(/.*)/.+?\.(tsx|jsx|ts|js)$`)
+      const folder = entryPath.match(folderRegex)?.[1] ?? ""
       const folderRoutes = pathsRoutes
         .reverse()
         .filter(
           ({ path }) =>
             folder === "" ||
             new RegExp(
-              `/pages${folder.replace(/\[/, "\\[").replace(/\]/, "\\]")}/.+?\.(tsx|jsx|ts|js)$`
+              `${pagesFolder}${folder
+                .replace(/\[/, "\\[")
+                .replace(/\]/, "\\]")}/.+?\.(tsx|jsx|ts|js)$`
             ).test(path)
         )
 
@@ -88,7 +93,7 @@ export function createRoutes(opts?: RoutesOptions): RouteObject[] {
   function createRouteObject(path: string): RouteObject {
     // 1. convert file system path to url
     // 2. replace dynamic parts `[id]` with `:id`
-    const routePath = pageToUrl(path)!.replace(/\[.+?\]/g, sub => `:${sub.slice(1, -1)}`)
+    const routePath = pageToUrl(path, pagesRoot)!.replace(/\[.+?\]/g, sub => `:${sub.slice(1, -1)}`)
 
     const Page = createRoutePage(path)
 
@@ -159,7 +164,8 @@ export function createRoutes(opts?: RoutesOptions): RouteObject[] {
 
   function createNotFoundElement() {
     const NotFoundPage = lazy(async () => {
-      const notFoundPath = allPagesPaths.find(path => /pages\/404.(tsx|jsx|ts|js)/.test(path))
+      const notFoundRegex = new RegExp(`${pagesFolder}/404.(tsx|jsx|ts|js)`)
+      const notFoundPath = allPagesPaths.find(path => notFoundRegex.test(path))
       const notFoundComponent = notFoundPath ? (await pages[notFoundPath]()).default : NotFound
       return {
         default: notFoundComponent,

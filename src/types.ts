@@ -3,8 +3,9 @@ import type { LoaderFunctionArgs } from "react-router-dom"
 
 export type RouteLoadingBehaviour = "lazy" | "blocking"
 
-export interface RoutesOptions {
+export type RoutesOptions = {
   defaultBehaviour?: RouteLoadingBehaviour
+  pagesRoot?: string
 }
 
 export interface RoutePage<P = {}> extends React.FC<P> {

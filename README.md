@@ -39,6 +39,23 @@ Example:
     ...
 ```
 
+### Set a custom pages root
+
+When you define your Router component set the `pagesRoot` prop like this:
+```tsx
+<Router pagesRoot="src" />
+```
+
+Now your folder structure should look like this:
+```
+/my-app
+  /src
+    /components
+    /pages
+      ...
+    ...
+```
+
 ## Setup a page loader
 
 Export a function named `loader` from your page. The function must return a `data` and optionally a `notFound` property.
@@ -73,7 +90,7 @@ export default Page
 ### Loading mode
 
 #### At root level (default is "lazy")
-```ts
+```tsx
 createRoot(
   document.getElementById("root")!
 ).render(

@@ -1,5 +1,6 @@
 import React from "react"
 
+import ArticleCard from "../../../components/ArticleCard"
 import { usePageData } from "vite-react-async-router"
 import type { PageLoader, RoutePage } from "vite-react-async-router"
 import type { Article } from "data/articles"
@@ -19,9 +20,8 @@ const Project: RoutePage = () => {
               .fill(0)
               .map((_, i) => <li className="bg-gray-500 rounded h-32 animate-pulse" key={i} />)
           : data.articles.map(article => (
-              <li className="p-3 rounded border border-gray-500" key={article.id}>
-                <h2 className="font-semibold">{article.title}</h2>
-                <p className="text-xs text-gray-400">{article.excerpt}</p>
+              <li key={article.id}>
+                <ArticleCard title={article.title} excerpt={article.excerpt} />
               </li>
             ))}
       </ul>
@@ -36,7 +36,7 @@ const Project: RoutePage = () => {
 export const loader: PageLoader<PageData> = async args => {
   await new Promise(resolve => setTimeout(resolve, 2000))
 
-  const projects = (await import("../../../data/articles")).default
+  const projects = (await import("../../../../data/articles")).default
   const articles = projects.filter(a => a.project === args.params.id)
 
   return {

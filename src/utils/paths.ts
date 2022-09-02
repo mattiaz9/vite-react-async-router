@@ -1,6 +1,7 @@
-export function pageToUrl(path: string) {
+export function pageToUrl(path: string, root = "/") {
+  const pagesRegex = new RegExp(`^.?${root}/pages/`)
   const url = path
-    .replace(/^.?\/pages\//, "/")
+    .replace(pagesRegex, "/")
     .replace(/\.(tsx|jsx|ts|js)$/, "")
     .replace(/\/index$/, "")
     .replace(/\/?$/, "")

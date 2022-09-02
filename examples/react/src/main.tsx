@@ -5,4 +5,4 @@ import { Router } from "vite-react-async-router"
 
 import "./styles/global.css"
 
-createRoot(document.getElementById("root")!).render(<Router />)
+createRoot(document.getElementById("root")!).render(<Router pagesRoot="src" />)

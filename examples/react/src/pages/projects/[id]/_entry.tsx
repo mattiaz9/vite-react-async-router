@@ -3,7 +3,7 @@ import React from "react"
 import { usePageData } from "vite-react-async-router"
 import type { PageLoader, RouteEntry } from "vite-react-async-router"
 
-import type { Project } from "../../../data/projects"
+import type { Project } from "../../../../data/projects"
 
 type PageData = {
   project: Project
@@ -38,7 +38,7 @@ export const loader: PageLoader<PageData, { project: Project }> = async args => 
 
   await new Promise(resolve => setTimeout(resolve, 1000))
 
-  const projects = (await import("../../../data/projects")).default
+  const projects = (await import("../../../../data/projects")).default
   const project = projects.find(p => p.id === args.params.id)!
 
   return {

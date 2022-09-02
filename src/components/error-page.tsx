@@ -6,10 +6,10 @@ import Error from "./error"
 import { ClientError, NotFoundError } from "../utils/errors"
 import type { Page } from "../types"
 
-const userErrorPages = import.meta.glob<Page>("/pages/**/(404|_error).(tsx|jsx|ts|js)")
+const userErrorPages = import.meta.glob<Page>("/**/pages/(404|_error).(tsx|jsx|ts|js)")
 
 const AsyncNotFound = lazy(async () => {
-  const user404 = Object.keys(userErrorPages).find(path => /^\/pages\/404/.test(path))
+  const user404 = Object.keys(userErrorPages).find(path => path.includes("404"))
   const page = user404 ? (await userErrorPages[user404]()).default : NotFound
   return {
     default: page,
@@ -17,7 +17,7 @@ const AsyncNotFound = lazy(async () => {
 })
 
 const AsyncClientError = lazy(async () => {
-  const userError = Object.keys(userErrorPages).find(path => /^\/pages\/_error/.test(path))
+  const userError = Object.keys(userErrorPages).find(path => path.includes("_error"))
   const page = userError ? (await userErrorPages[userError]()).default : Error
   return {
     default: page,

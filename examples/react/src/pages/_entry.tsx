@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { usePageData } from "vite-react-async-router"
 import type { PageLoader, RouteEntry } from "vite-react-async-router"
 
-import type { Project } from "../data/projects"
+import type { Project } from "../../data/projects"
 
 type PageData = {
   projects: Project[]
@@ -64,7 +64,7 @@ const Placeholder: React.FC = () => {
 export const loader: PageLoader<PageData> = async args => {
   await new Promise(resolve => setTimeout(resolve, 2000))
 
-  const projects = (await import("../data/projects")).default
+  const projects = (await import("../../data/projects")).default
 
   return {
     data: {

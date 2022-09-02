@@ -12,9 +12,5 @@ export default defineConfig({
       { find: "vite-react-async-router", replacement: resolve(__dirname, "../../dist/index.js") },
     ],
   },
-  plugins: [
-    react({
-      include: ["src/**/*.tsx", "pages/**/*.tsx"],
-    }),
-  ],
+  plugins: [react()],
 })
